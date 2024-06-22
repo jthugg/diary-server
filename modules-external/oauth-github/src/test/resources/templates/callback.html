@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Callback</title>
+</head>
+<body>
+  <h1>callback</h1>
+  <p class="status">GitHub oauth2 processing...</p>
+</body>
+<script>
+  const entries = new URLSearchParams(window.location.search).entries()
+  const codeData = {}
+
+  for (const [k, v] of entries) {
+    codeData[k] = v
+  }
+
+  const provider = 'github'
+  const url = `http://localhost:8080/oauth/${provider}`
+  const requestData = {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(codeData)
+  }
+
+  fetch(url, requestData).then(value => value.json()).then(res => {
+    for (const k in res) {
+      const p = document.createElement('p')
+      p.textContent = k + ' : ' + res[k]
+      document.querySelector('body').appendChild(p)
+    }
+    document.querySelector('p.status').textContent = 'completed!'
+  })
+</script>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Index</title>
+</head>
+<body>
+  <h1>index</h1>
+  <button onclick="onGitHub()">깃허브 로그인</button>
+</body>
+<script>
+  async function getClientId() {
+    const res = await fetch('http://localhost:8080/oauth/github/client-id')
+    const value = await res.json()
+    return value.clientId
+  }
+
+  async function onGitHub() {
+    const clientId = await getClientId()
+    const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`
+    window.location.assign(authUrl)
+    // console.log(authUrl)
+  }
+</script>
+</html>

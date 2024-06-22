@@ -1,0 +1,12 @@
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+
+oauth2:
+  github:
+    authorizationServer: https://github.com/login/oauth/access_token
+    apiServer: https://api.github.com/user
+    clientId: ${TEST_OAUTH_2_GITHUB_CLIENT_ID}
+    clientSecret: ${TEST_OAUTH_2_GITHUB_CLIENT_SECRET}
