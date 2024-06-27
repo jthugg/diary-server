@@ -4,6 +4,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -19,15 +20,23 @@ public class RequestTraceFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        return chain.filter(mutateRequest(exchange));
+        String requestId = UUID.randomUUID().toString();
+        return chain.filter(mutate(exchange, requestId));
     }
 
-    private ServerWebExchange mutateRequest(ServerWebExchange exchange) {
-        return exchange.mutate().request(setHeader(exchange.getRequest())).build();
+    private ServerWebExchange mutate(ServerWebExchange exchange, String requestId) {
+        ServerWebExchange.Builder builder = exchange.mutate();
+        builder.request(setRequest(exchange.getRequest(), requestId));
+        setResponse(exchange.getResponse(), requestId);
+        return builder.build();
     }
 
-    private ServerHttpRequest setHeader(ServerHttpRequest request) {
-        return request.mutate().header(REQUEST_ID_HEADER, UUID.randomUUID().toString()).build();
+    private ServerHttpRequest setRequest(ServerHttpRequest request, String requestId) {
+        return request.mutate().header(REQUEST_ID_HEADER, requestId).build();
+    }
+
+    private void setResponse(ServerHttpResponse response, String requestId) {
+        response.getHeaders().add(REQUEST_ID_HEADER, requestId);
     }
 
     @Override
