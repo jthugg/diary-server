@@ -6,4 +6,4 @@ include 'modules-external:oauth-github'
 include 'modules-presentation:web'
 include 'modules-gateway:discovery'
 include 'modules-gateway:gateway'
-
+include 'modules-gateway:ping'
