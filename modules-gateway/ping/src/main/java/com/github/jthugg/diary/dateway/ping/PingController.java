@@ -1,25 +1,22 @@
 package com.github.jthugg.diary.dateway.ping;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import com.github.jthugg.diary.presentation.web.Response;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RestController
 public class PingController {
 
     @GetMapping("/")
-    public ResponseEntity<String> pong(@RequestHeader("X-Request-ID") String requestId) {
-        log.info("ping! {}", requestId);
-        return ResponseEntity.ok("pong");
+    public HttpEntity<Response<String>> pong() {
+        return Response.ofEntity(HttpStatus.OK, "pong");
     }
 
     @GetMapping("/check")
-    public ResponseEntity<String> check(@RequestHeader("X-Request-ID") String requestId) {
-        log.info("check! {}", requestId);
-        return ResponseEntity.ok("check");
+    public HttpEntity<Response<String>> check() {
+        return Response.ofEntity(HttpStatus.OK, "check");
     }
 
 }
