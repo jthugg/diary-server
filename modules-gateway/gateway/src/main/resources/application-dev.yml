@@ -2,5 +2,7 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
+    registry-fetch-interval-seconds: 5
+    disable-delta: true
     service-url:
       default-zone: http:/localhost:8761/
