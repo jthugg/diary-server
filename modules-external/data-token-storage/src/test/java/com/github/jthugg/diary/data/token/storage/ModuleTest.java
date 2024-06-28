@@ -1,7 +1,12 @@
 package com.github.jthugg.diary.data.token.storage;
 
+import com.github.jthugg.diary.data.token.storage.exception.TokenNotFoundException;
+import com.github.jthugg.diary.data.token.storage.exception.TokenRevokedException;
+import com.github.jthugg.diary.data.token.storage.model.Token;
+import com.github.jthugg.diary.data.token.storage.repository.TokenRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -23,6 +28,8 @@ public class ModuleTest {
 
     static GenericContainer<?> container;
     static RedisTemplate<String, String> redisTemplate;
+    static TokenRepository tokenRepository;
+    static RedisTemplate<String, Token> tokenRedisTemplate;
 
     @BeforeAll
     static void beforeAll() {
@@ -41,6 +48,13 @@ public class ModuleTest {
         redisTemplate.setDefaultSerializer(RedisSerializer.string());
         redisTemplate.setConnectionFactory(connFactory);
         redisTemplate.afterPropertiesSet();
+
+        tokenRedisTemplate = new RedisTemplate<>();
+        tokenRedisTemplate.setDefaultSerializer(RedisSerializer.json());
+        tokenRedisTemplate.setConnectionFactory(connFactory);
+        tokenRedisTemplate.afterPropertiesSet();
+
+        tokenRepository = new TokenRepository(tokenRedisTemplate);
     }
 
     @AfterAll
@@ -64,6 +78,24 @@ public class ModuleTest {
         RedisScript<String> script02 = new DefaultRedisScript<>("return redis.call('get', 'key01')", String.class);
         value = redisTemplate.execute(script02, List.of());
         log.info("value: {}", value);
+    }
+
+    @Test
+    void luaScriptTokenTest() throws InterruptedException {
+        String key = "key";
+        long ttlSec = 3;
+
+        Assertions.assertDoesNotThrow(() -> {
+            tokenRepository.setAccessToken(key, ttlSec);
+            tokenRepository.findAccessToken(key);
+        });
+
+        tokenRepository.revokeToken(key);
+        Assertions.assertThrows(TokenRevokedException.class, () -> tokenRepository.findAccessToken(key));
+
+        Thread.sleep(3_000L);
+
+        Assertions.assertThrows(TokenNotFoundException.class, () -> tokenRepository.findAccessToken(key));
     }
 
 }
