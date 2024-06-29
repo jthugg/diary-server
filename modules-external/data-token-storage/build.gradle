@@ -1,6 +1,6 @@
 dependencies {
     // Spring Data REDIS
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    api 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // Testcontianers setups
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
