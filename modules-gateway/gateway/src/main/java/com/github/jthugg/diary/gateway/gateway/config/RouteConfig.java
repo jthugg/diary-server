@@ -4,7 +4,6 @@ import com.github.jthugg.diary.gateway.gateway.filter.GlobalPostFilter;
 import com.github.jthugg.diary.gateway.gateway.filter.GlobalPreFilter;
 import com.github.jthugg.diary.gateway.gateway.route.RouteProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.gateway.server.mvc.filter.BeforeFilterFunctions;
 import org.springframework.cloud.gateway.server.mvc.filter.LoadBalancerFilterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
@@ -35,11 +34,8 @@ public class RouteConfig {
         return applyGlobalFilter(GatewayRouterFunctions
                 .route(routeProperties.getRouteId())
                 .route(RequestPredicates.path(routeProperties.getPathPattern()), HandlerFunctions.https())
-                .filter(LoadBalancerFilterFunctions.lb(routeProperties.getServiceId()))
-                .before(BeforeFilterFunctions.rewritePath(
-                        routeProperties.getRewriteRegexp(),
-                        routeProperties.getRewriteReplacement()
-                ))).build();
+                .filter(LoadBalancerFilterFunctions.lb(routeProperties.getServiceId())))
+                .build();
     }
 
     private RouterFunctions.Builder applyGlobalFilter(RouterFunctions.Builder builder) {
