@@ -1,6 +1,6 @@
 package com.github.jthugg.diary.gateway.gateway.config;
 
-import com.github.jthugg.diary.gateway.gateway.filter.RequestAuthorizationFilter;
+import com.github.jthugg.diary.gateway.gateway.filter.RequestPostLabelingFilter;
 import com.github.jthugg.diary.gateway.gateway.filter.RequestTraceFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +14,8 @@ public class GlobalFilterConfig {
     }
 
     @Bean
-    public RequestAuthorizationFilter requestAuthorizationFilter() {
-        return new RequestAuthorizationFilter();
+    public RequestPostLabelingFilter requestPostLabelingFilter() {
+        return new RequestPostLabelingFilter();
     }
 
 }

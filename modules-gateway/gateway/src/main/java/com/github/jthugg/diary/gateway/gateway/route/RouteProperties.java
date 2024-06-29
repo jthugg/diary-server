@@ -12,14 +12,14 @@ public enum RouteProperties {
             "/ping/**",
             "/ping(?<segment>/?.*?)/*$",
             "/${segment}",
-            "lb://PING-SERVICE"
+            "PING-SERVICE"
     ),
     ;
 
-    private final String service;
-    private final String path;
-    private final String regexp;
-    private final String replacement;
-    private final String target;
+    private final String routeId;
+    private final String pathPattern;
+    private final String rewriteRegexp;
+    private final String rewriteReplacement;
+    private final String serviceId;
 
 }

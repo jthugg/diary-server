@@ -3,9 +3,7 @@ ext {
 }
 
 dependencies {
-//    // TODO: migrate to mvc style gateway
-//    implementation 'org.springframework.cloud:spring-cloud-starter-gateway-mvc'
-    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway-mvc'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
 
