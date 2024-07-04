@@ -19,7 +19,11 @@ public class ResolvedJwt {
     }
 
     public String getUserId() {
-        return decodedJWT.getSubject();
+        return decodedJWT.getClaim(JwtClaims.Payload.USER_ID.getClaim()).asString();
+    }
+
+    public String getUserRole() {
+        return decodedJWT.getClaim(JwtClaims.Payload.USER_ROLE.getClaim()).asString();
     }
 
     public Instant getExpiration() {

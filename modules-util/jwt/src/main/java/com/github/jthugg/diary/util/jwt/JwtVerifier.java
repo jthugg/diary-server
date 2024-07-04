@@ -15,7 +15,7 @@ public class JwtVerifier {
     private final JwtEncryptor encryptor;
 
     public JwtVerifier(JwtProperties properties, JwtEncryptor encryptor) {
-        this.verifier = JWT.require(properties.algorithm()).build();
+        this.verifier = JWT.require(properties.getAlgorithm()).build();
         this.encryptor = encryptor;
     }
 
