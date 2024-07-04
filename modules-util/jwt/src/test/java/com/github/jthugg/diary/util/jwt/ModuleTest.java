@@ -1,6 +1,5 @@
 package com.github.jthugg.diary.util.jwt;
 
-import com.auth0.jwt.algorithms.Algorithm;
 import com.github.jthugg.diary.util.jwt.model.JwtSet;
 import com.github.jthugg.diary.util.jwt.model.JwtType;
 import com.github.jthugg.diary.util.jwt.model.ResolvedJwt;
@@ -24,11 +23,11 @@ public class ModuleTest {
         accessTokenLifeTime = 3;
         refreshTokenLifeTime = 5;
         JwtProperties properties = new JwtProperties(
-                Algorithm.HMAC512(tokenSignatureSecret),
+                tokenSignatureSecret,
                 accessTokenLifeTime,
                 refreshTokenLifeTime
         );
-        String aesKey = "testAesKeytestAesKeytestAesKey!!";
+        String aesKey = "testAesKeyTestAesKeyTestAesKey!!";
         String ivKey = "testIvKeyValue!!";
         JwtEncryptor encryptor = new JwtEncryptor(aesKey, ivKey);
         this.jwtGenerator = new JwtGenerator(properties, encryptor);
@@ -38,7 +37,8 @@ public class ModuleTest {
     @Test
     void test() throws InterruptedException {
         String testUserId = "testUserId";
-        JwtSet tokenSet = jwtGenerator.generateToken("testUserId");
+        String testUserRole = "testUserRole";
+        JwtSet tokenSet = jwtGenerator.generateToken(testUserId, testUserRole);
 
         ResolvedJwt accessToken = jwtVerifier.verify(tokenSet.accessToken());
         ResolvedJwt refreshToken = jwtVerifier.verify(tokenSet.refreshToken());
@@ -47,6 +47,7 @@ public class ModuleTest {
         Assertions.assertEquals(testUserId, accessToken.getUserId());
         Assertions.assertTrue(accessToken.getExpiration().isAfter(Instant.now()));
         Assertions.assertFalse(accessToken.isExpired());
+
         Assertions.assertEquals(JwtType.REFRESH_TOKEN, refreshToken.getType());
         Assertions.assertEquals(testUserId, refreshToken.getUserId());
         Assertions.assertTrue(refreshToken.getExpiration().isAfter(Instant.now()));
