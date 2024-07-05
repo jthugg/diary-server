@@ -3,6 +3,12 @@ spring:
     virtual:
       enabled: true
 
+  data:
+    redis:
+      host: localhost
+      port: 63790
+      password: test
+
 eureka:
   client:
     register-with-eureka: true
@@ -11,3 +17,12 @@ eureka:
     disable-delta: true
     service-url:
       default-zone: http:/localhost:8761/
+
+jwt:
+  token:
+    secret: dev-token-secret
+    access-token-life-time: 10
+    refresh-token-life-time: 20
+  encryption:
+    aesKey: testAesKeyTestAesKeyTestAesKey!!
+    ivKey: testIvKeyValue!!
