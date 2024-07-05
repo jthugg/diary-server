@@ -16,11 +16,6 @@ public class RequestPostLabelingFilter implements GlobalPostFilter {
     }
 
     @Override
-    public int compareTo(GlobalPostFilter filter) {
-        return Integer.compare(filter.getOrder(), getOrder());
-    }
-
-    @Override
     public int getOrder() {
         return Ordered.LOWEST_PRECEDENCE;
     }

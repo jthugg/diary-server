@@ -8,4 +8,10 @@ import java.util.function.BiFunction;
 
 public interface GlobalPostFilter
         extends BiFunction<ServerRequest, ServerResponse, ServerResponse>, Ordered, Comparable<GlobalPostFilter> {
+
+    @Override
+    default int compareTo(GlobalPostFilter filter) {
+        return Integer.compare(getOrder(), filter.getOrder());
+    }
+
 }

@@ -15,11 +15,6 @@ public class PathRewriteFilter implements GlobalPreFilter {
     }
 
     @Override
-    public int compareTo(GlobalPreFilter filter) {
-        return Integer.compare(filter.getOrder(), getOrder());
-    }
-
-    @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 1;
     }

@@ -17,11 +17,6 @@ public class RequestTraceFilter implements GlobalPreFilter {
     }
 
     @Override
-    public int compareTo(GlobalPreFilter filter) {
-        return Integer.compare(getOrder(), filter.getOrder());
-    }
-
-    @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE;
     }

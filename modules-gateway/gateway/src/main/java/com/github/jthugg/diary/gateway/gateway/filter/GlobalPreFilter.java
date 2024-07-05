@@ -7,4 +7,10 @@ import java.util.function.Function;
 
 public interface GlobalPreFilter
         extends Function<ServerRequest, ServerRequest>, Ordered, Comparable<GlobalPreFilter> {
+
+    @Override
+    default int compareTo(GlobalPreFilter filter) {
+        return Integer.compare(filter.getOrder(), getOrder());
+    }
+
 }
