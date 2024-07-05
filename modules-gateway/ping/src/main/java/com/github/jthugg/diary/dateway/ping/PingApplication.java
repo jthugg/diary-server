@@ -1,13 +1,13 @@
-package com.github.jthugg.diary.gateway.gateway;
+package com.github.jthugg.diary.dateway.ping;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GatewayApplication {
+public class PingApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GatewayApplication.class, args);
+        SpringApplication.run(PingApplication.class, args);
     }
 
 }

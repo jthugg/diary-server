@@ -1,9 +1,12 @@
 rootProject.name = 'diary'
 include 'modules-api:rest-auth'
 include 'modules-external:data-access-mysql'
+include 'modules-external:data-token-storage'
 include 'modules-external:oauth'
 include 'modules-external:oauth-github'
 include 'modules-presentation:web'
 include 'modules-gateway:discovery'
 include 'modules-gateway:gateway'
-
+include 'modules-gateway:ping'
+include 'modules-util'
+include 'modules-util:jwt'
